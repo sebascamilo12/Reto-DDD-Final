@@ -20,6 +20,7 @@ public class Alquiler extends AggregateEvent<AlquilerId> {
     protected LibroId libroId;
 
     protected Nombre nombre;
+    protected Categoria categoria;
     protected Sala sala;
 
     protected Libro libro;
@@ -27,14 +28,15 @@ public class Alquiler extends AggregateEvent<AlquilerId> {
     protected Prestamo prestamo;
 
 
-    public Alquiler(AlquilerId entityId, PrestamoId prestamoId, Codigo codigo, LibroId libroId, Nombre nombre) {
+    public Alquiler(AlquilerId entityId, PrestamoId prestamoId, Codigo codigo, LibroId libroId, Nombre nombre, Categoria categoria) {
         super(entityId);
         Objects.requireNonNull(prestamoId);
         Objects.requireNonNull(codigo);
         Objects.requireNonNull(libroId);
         Objects.requireNonNull(nombre);
+        Objects.requireNonNull(categoria);
         subscribe(new AlquilerChange(this));
-        appendChange(new AlquilerCreado(prestamoId, codigo, libroId, nombre)).apply();
+        appendChange(new AlquilerCreado(prestamoId, codigo, libroId, nombre, categoria)).apply();
 
     }
 
@@ -132,5 +134,9 @@ public class Alquiler extends AggregateEvent<AlquilerId> {
 
     public Prestamo prestamo() {
         return prestamo;
+    }
+
+    public Categoria categoria() {
+        return categoria;
     }
 }
